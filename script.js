@@ -2,6 +2,9 @@ console.log("The beginning of a new journey!")
 
 //START//
 
+//Global variables to keep track of cpu and human scores
+let humanScore = 0
+let cpuScore = 0
 //This function returns a random integer between 1-3 inclusive => [1,3]
 function getComputerChoice() {
     //Creating a number in range [0,3),
@@ -10,15 +13,18 @@ function getComputerChoice() {
     let cpuChoice = Math.floor(Math.random() * 3 + 1)
     console.log(cpuChoice)
 
+    let cpuSelection
     //using switch statement to return either R,P or S as cpu choice
     switch (cpuChoice) {
-        case 1: return "ROCK"
+        case 1: cpuSelection = "ROCK"
             break;
-        case 2: return "PAPER"
+        case 2: cpuSelection = "PAPER"
             break;
-        case 3: return "SCISSORS"
+        case 3: cpuSelection = "SCISSORS"
             break;
     }
+    console.log("Computer Choice = ", cpuSelection)
+    return cpuSelection
 }
 //This function gets the human user's choice using prompt
 function getHumanChoice() {
@@ -28,15 +34,17 @@ function getHumanChoice() {
     //then, in case they enter an empty value of cancel the prompt, we output "TERMINATED"
     if (humanChoice === "" || humanChoice === null) {
         console.log("TERMINATED")
+        return
     }
     //else, compare
     else {
         //trim and capitalize the choice for stable comparisons
         humanChoice = humanChoice.trim().toUpperCase()
 
-         //check if the choice is valid or not
+        //check if the choice is valid or not
         if (["ROCK", "PAPER", "SCISSORS"].includes(humanChoice)) {
             console.log("Human Choice = ", humanChoice)
+            return humanChoice
         }
 
         //if not valid, then say invalid and redirect to the same function again
@@ -46,8 +54,14 @@ function getHumanChoice() {
         }
     }
 }
-//function call to generate cpu choice, to see its returned value, we do console.log
-console.log(getComputerChoice())
+function playRound(cpuChoice = getComputerChoice(), humanChoice = getHumanChoice()) {
+    console.log(cpuChoice, humanChoice)
 
-//function call to get human choice from prompt
-getHumanChoice()
+}
+playRound()
+
+// //function call to generate cpu choice, to see its returned value, we do console.log
+// console.log("Computer Choice = ", getComputerChoice())
+
+// //function call to get human choice from prompt, to see its returned value, we do console.log
+// console.log("Human Choice = ", getHumanChoice())
