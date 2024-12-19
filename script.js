@@ -11,7 +11,6 @@ function getComputerChoice() {
     //adding 1 makes it in range [1,4),
     //finally, flooring it makes it lie in range [1,3]
     let cpuChoice = Math.floor(Math.random() * 3 + 1)
-    console.log(cpuChoice)
 
     let cpuSelection
     //using switch statement to return either R,P or S as cpu choice
@@ -33,8 +32,7 @@ function getHumanChoice() {
 
     //then, in case they enter an empty value of cancel the prompt, we output "TERMINATED"
     if (humanChoice === "" || humanChoice === null) {
-        console.log("TERMINATED")
-        return
+        throw new Error("No value was entered by user, aborting game")
     }
     //else, compare
     else {
@@ -47,18 +45,60 @@ function getHumanChoice() {
             return humanChoice
         }
 
-        //if not valid, then say invalid and redirect to the same function again
+        //if not valid, then say invalid and redirect to the same function again until user enters a valid one!
         else {
             alert("Please enter a valid choice!, try again")
             getHumanChoice()
         }
     }
 }
-function playRound(cpuChoice = getComputerChoice(), humanChoice = getHumanChoice()) {
+// Function the play a round and decide win, loss or tie and update the scores
+function playRound(round) {
+    let cpuChoice = getComputerChoice();
+    let humanChoice = getHumanChoice();
     console.log(cpuChoice, humanChoice)
 
+    //Compare the choices of cpu and human user
+
+    //TIE if same choice by both
+    if (cpuChoice === humanChoice) {
+        console.log("IT'S A TIE!!!")
+    }
+    //All cases where CPU wins
+    else if ((cpuChoice === 'ROCK' && humanChoice === 'SCISSORS') || (cpuChoice === 'PAPER' && humanChoice === 'ROCK') || (cpuChoice === 'SCISSORS' && humanChoice === 'PAPER')) {
+        cpuChoice += 1
+        console.log('You Lose!')
+    }
+    //All other cases, where human wins
+    else {
+        humanChoice += 1
+        console.log('You Win!')
+    }
 }
-playRound()
+
+//Function to play the game (5 rounds and decide the overall winner)
+function playGame() {
+    //Run 5 rounds
+    for (let i = 0; i < 5; i++) {
+        playRound(i + 1)
+    }
+    if (cpuScore === humanScore) {
+        console.log("OVERALL TIE!!!")
+    }
+    else if (cpuScore > humanScore) {
+        console.log("CPU wins the whole game!!!")
+    }
+    else {
+        console.log("You win the whole game!!!")
+    }
+}
+//Try-Catch block to handle the exception generated on line 35
+try {
+    playGame()
+}
+catch (err) {
+    console.log(err)
+}
 
 // //function call to generate cpu choice, to see its returned value, we do console.log
 // console.log("Computer Choice = ", getComputerChoice())
