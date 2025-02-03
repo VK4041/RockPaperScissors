@@ -30,7 +30,7 @@ function getHumanChoice() {
     //first, we ask the user to enter their choice
     let humanChoice = prompt("Enter your choice (ROCK, PAPER or SCISSORS): ")
 
-    //then, in case they enter an empty value of cancel the prompt, we output "TERMINATED"
+    //then, in case they enter an empty value or cancel the prompt, we output "TERMINATED"
     if (humanChoice === "" || humanChoice === null) {
         throw new Error("No value was entered by user, aborting game")
     }
@@ -54,6 +54,9 @@ function getHumanChoice() {
 }
 // Function the play a round and decide win, loss or tie and update the scores
 function playRound(round) {
+
+    //Print the round number before each player makes their choice
+    console.log(`\n\tRound ${round}`)
     let cpuChoice = getComputerChoice();
     let humanChoice = getHumanChoice();
     console.log(cpuChoice, humanChoice)
@@ -66,12 +69,12 @@ function playRound(round) {
     }
     //All cases where CPU wins
     else if ((cpuChoice === 'ROCK' && humanChoice === 'SCISSORS') || (cpuChoice === 'PAPER' && humanChoice === 'ROCK') || (cpuChoice === 'SCISSORS' && humanChoice === 'PAPER')) {
-        cpuChoice += 1
+        cpuScore += 1
         console.log('You Lose!')
     }
     //All other cases, where human wins
     else {
-        humanChoice += 1
+        humanScore += 1
         console.log('You Win!')
     }
 }
@@ -79,9 +82,12 @@ function playRound(round) {
 //Function to play the game (5 rounds and decide the overall winner)
 function playGame() {
     //Run 5 rounds
-    for (let i = 0; i < 5; i++) {
-        playRound(i + 1)
+    for (let i = 1; i <= 5; i++) {
+        playRound(i)
     }
+    //Game end indicator and scoreboard
+    console.log(`\n\t------Game Over------\n\t------Results------`)
+    console.log(`Human Score = ${humanScore}\nCPU Score = ${cpuScore}`)
     if (cpuScore === humanScore) {
         console.log("OVERALL TIE!!!")
     }
@@ -99,9 +105,3 @@ try {
 catch (err) {
     console.log(err)
 }
-
-// //function call to generate cpu choice, to see its returned value, we do console.log
-// console.log("Computer Choice = ", getComputerChoice())
-
-// //function call to get human choice from prompt, to see its returned value, we do console.log
-// console.log("Human Choice = ", getHumanChoice())
