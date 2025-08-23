@@ -1,5 +1,3 @@
-console.log("The beginning of a new journey!")
-
 //START//
 
 //Global variables to keep track of cpu and human scores
@@ -81,6 +79,7 @@ function playRound(round) {
 
 //Function to play the game (5 rounds and decide the overall winner)
 function playGame() {
+    console.log("The beginning of a new journey!")
     //Run 5 rounds
     for (let i = 1; i <= 5; i++) {
         playRound(i)
