@@ -5,24 +5,47 @@ let humanScore = 0
 let cpuScore = 0
 const container = document.querySelector('#container')
 
+function addClasses(classes, ...elements) {
+    elements.map(element => classes.map(className => element.classList.add(className)))
+}
+function appendChildren(parent, ...children) {
+    children.map(child => parent.appendChild(child))
+}
+function setAttributes(node, ...attributes) {
+    attributes.map(each => {
+        node.setAttribute(each[0], each[1])
+    })
+}
 function displayStartScreen() {
     const topDiv = document.createElement('div')
     const middleDiv = document.createElement('div')
     const startDiv = document.createElement('div')
     const startBtn = document.createElement('button')
     const title = document.createElement('h1')
-    const footer = document.createElement('footer')
+    const footerDiv = document.createElement('footer')
+    const footerText = document.createElement('p')
+    const footerImg = document.createElement('img')
 
     topDiv.appendChild(title)
     startDiv.appendChild(startBtn)
     middleDiv.appendChild(startDiv)
-    container.appendChild(topDiv)
-    container.appendChild(middleDiv)
-    container.appendChild(footer)
+    appendChildren(container, topDiv, middleDiv, footerDiv)
+    footerText.textContent = `Made by Varun Kumar `
+    footerText.appendChild(footerImg)
+    footerDiv.appendChild(footerText)
 
     title.textContent = 'Rock Paper Scissors'
     startBtn.textContent = 'Start Game'
 
+    setAttributes(footerImg, ['src', './images/github.png'], ['alt', 'GitHub Icon'], ['class', 'footerImg'])
+    addClasses(['flexedDiv'], topDiv, middleDiv, footerDiv, container)
+    addClasses(['bigTitle'], title)
+    addClasses(['footerDiv'], footerDiv)
+    addClasses(['footerText'], footerText)
+    addClasses(['startButton'], startBtn)
+    addClasses(['midDiv'], middleDiv)
+    addClasses(['startDiv'], startDiv)
+    addClasses(['center'], footerText)
 }
 displayStartScreen()
 // //This function returns a random integer between 1-3 inclusive => [1,3]
