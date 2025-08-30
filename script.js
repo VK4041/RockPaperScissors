@@ -25,19 +25,22 @@ function displayStartScreen() {
     const footerDiv = document.createElement('footer')
     const footerText = document.createElement('p')
     const footerImg = document.createElement('img')
+    const footerLink = document.createElement('a')
 
     topDiv.appendChild(title)
     startDiv.appendChild(startBtn)
     middleDiv.appendChild(startDiv)
     appendChildren(container, topDiv, middleDiv, footerDiv)
-    footerText.textContent = `Made by Varun Kumar `
-    footerText.appendChild(footerImg)
+    footerText.textContent = `Made by Varun Kumar`
+    footerLink.appendChild(footerImg)
+    footerText.appendChild(footerLink)
     footerDiv.appendChild(footerText)
 
     title.textContent = 'Rock Paper Scissors'
     startBtn.textContent = 'Start Game'
 
     setAttributes(footerImg, ['src', './images/github.png'], ['alt', 'GitHub Icon'], ['class', 'footerImg'])
+    setAttributes(footerLink, ['href', 'https://github.com/VK4041'], ['class', 'popUp'], ['target', '_blank'])
     addClasses(['flexedDiv'], topDiv, middleDiv, footerDiv, container)
     addClasses(['bigTitle'], title)
     addClasses(['footerDiv'], footerDiv)
