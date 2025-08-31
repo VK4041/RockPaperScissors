@@ -1,7 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Michroma&display=swap');
 
-.bigTitle,
-.startButton {
+.alignTop {
+    flex: 1
+}
+
+.theme {
     font-size: 3rem;
     font-family: 'Michroma', sans-serif;
     font-weight: 900;
@@ -24,19 +27,16 @@ body {
 .center {
     text-align: center;
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
     gap: 1rem
 }
 
-#container,
-.footerDiv,
-.midDiv {
+
+.flex-col-center {
     display: flex;
     flex-direction: column;
-}
-
-.flexedDiv {
+    justify-content: center;
     flex: 1;
     height: 100%;
 }
@@ -45,7 +45,8 @@ body {
     font-family: Arial, Helvetica, sans-serif;
     color: white;
     text-align: center;
-    margin-top: auto
+    margin-top: auto;
+    justify-content: center;
 }
 
 .footerImg {
@@ -53,8 +54,8 @@ body {
     border-radius: 50%;
 }
 
-.midDiv {
-    justify-content: center;
+.nameTag {
+    font-size: 2rem;
 }
 
 .popUp:hover {
@@ -63,9 +64,18 @@ body {
     transition-duration: 1s;
 }
 
-.rpsImages {
-    width: 200px;
-    border-radius: 10%;
+.rpsImages,
+.fixed-img {
+    width: 10rem;
+    height: auto;
+    border-radius: 50%;
+    margin: 5px;
+    object-fit: cover;
+}
+
+.rpsImages:hover {
+    transform: scale(1.05);
+    box-shadow: 2px 2px 2px black;
 }
 
 .startButton {
@@ -80,7 +90,9 @@ body {
     transition-duration: 4s;
 }
 
-.startDiv {
+.startDiv,
+.flex-row-center {
     display: flex;
+    flex-direction: row;
     justify-content: center;
 }
