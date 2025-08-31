@@ -54,8 +54,8 @@ body {
     border-radius: 50%;
 }
 
-.nameTag {
-    font-size: 2rem;
+.medText {
+    font-size: 1.5rem;
 }
 
 .popUp:hover {

@@ -91,7 +91,7 @@ function displayGameScreen() {
 
     //setting attributes and adding classes
     {
-        addClasses(['theme', 'nameTag'], humanTag, cpuTag)
+        addClasses(['theme', 'medText'], humanTag, cpuTag)
         addClasses(['flex-row-center'], playArea,)
         addClasses(['flex-col-center'], leftPane, rightPane, resultsArea)
         setAttributes(rockImg, ['src', './images/rock.jpg'], ['name', 'rock'])
@@ -108,34 +108,62 @@ function displayGameScreen() {
     let images = [rockImg, paperImg, scissorsImg]
     let humanChoice, cpuChoice;
 
-    images.map(img => img.addEventListener('click', () => {
-        humanChoice = img.getAttribute('name')
-        cpuChoice = getComputerChoice()
-        decideWinner(cpuChoice, humanChoice)
+    images.map(img => img.addEventListener('click', function handler() {
+        if (cpuScore !== 5 && humanScore !== 5) {
+            humanChoice = img.getAttribute('name')
+            cpuChoice = getComputerChoice()
+            decideWinner(humanChoice, cpuChoice, resultsArea)
+        }
+        else {
+            displayGameOverScreen(images)
+        }
     }))
 }
 
+function displayGameOverScreen(images) {
+    console.log('GAME OVER');
 
+}
+function displayRoundResults(outcome, resultsArea) {
+    const resultsText = document.createElement('div')
+    const resultsBoard = document.createElement('div')
+    let children = [...resultsArea.children]
+
+    resultsText.textContent = `${outcome}`
+    resultsBoard.textContent = `${humanScore} - ${cpuScore}`
+    addClasses(['theme', 'medText'], resultsArea)
+
+    if (resultsArea.children.length >= 2) {
+        children.map(child => resultsArea.removeChild(child))
+    }
+    appendChildren(resultsArea, resultsText, resultsBoard)
+}
 function getComputerChoice() {
-    let cpuChoice = Math.floor(Math.random() * 3 + 1)
+    let compChoice = Math.floor(Math.random() * 3 + 1)
+    const cpuDiv = document.querySelector('.cpuChoice')
+    const cpuImg = cpuDiv.firstElementChild
+    const imgAttributes = [[['src', './images/rock.jpg'], ['name', 'rock']],
+    [['src', './images/paper.jpg'], ['name', 'paper']],
+    [['src', './images/scissors.jpg'], ['name', 'scissors']]]
 
+    addClasses(['rpsImages'], cpuImg)
     let cpuSelection
     //using switch statement to return either R,P or S as cpu choice
-    switch (cpuChoice) {
+    switch (compChoice) {
         case 1: cpuSelection = "rock"
+            setAttributes(cpuImg, imgAttributes[0][0], imgAttributes[0][1])
             break;
         case 2: cpuSelection = "paper"
+            setAttributes(cpuImg, imgAttributes[1][0], imgAttributes[1][1])
             break;
         case 3: cpuSelection = "scissors"
+            setAttributes(cpuImg, imgAttributes[2][0], imgAttributes[2][1])
             break;
     }
     return cpuSelection
 }
 
-function decideWinner(cpuChoice, humanChoice) {
-
-    console.log(`CPU: ${cpuChoice} | YOU: ${humanChoice}`)
-
+function decideWinner(humanChoice, cpuChoice, resultsArea) {
     let outcome
     //TIE if same choice by both
     if (cpuChoice === humanChoice) {
@@ -153,7 +181,7 @@ function decideWinner(cpuChoice, humanChoice) {
         humanScore += 1
         outcome = 'You Win!'
     }
-    console.log(outcome)
+    displayRoundResults(outcome, resultsArea)
 }
 
 //Function to play the game (5 rounds and decide the overall winner)
@@ -161,7 +189,7 @@ function playGame() {
     displayStartScreen()
     // //Game end indicator and scoreboard
     // console.log(`\n\t------Game Over------\n\t------Results------`)
-    // console.log(`Human Score = ${humanScore}\nCPU Score = ${cpuScore}`)
+    // console.log(`Human Score = ${ humanScore } \nCPU Score = ${ cpuScore } `)
     // if (cpuScore === humanScore) {
     //     console.log("OVERALL TIE!!!")
     // }
