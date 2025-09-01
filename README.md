@@ -1,2 +1,4 @@
 # RockPaperScissors
-A simple rock-paper-scissors game played entirely in the browser console. Later, will implement GUI later.
+Rock Paper Scissors game built with DOM manipulation only as a challenge.
+HTML structure, classes, attributes, etc were all done via JavaScript.
+Have fun!
