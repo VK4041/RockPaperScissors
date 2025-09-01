@@ -45,6 +45,7 @@ function displayStartScreen() {
     {
         setAttributes(footerImg, ['src', './images/github.png'], ['alt', 'GitHub Icon'], ['class', 'footerImg'])
         setAttributes(footerLink, ['href', 'https://github.com/VK4041'], ['class', 'popUp'], ['target', '_blank'])
+        setAttributes(startDiv, ['id', 'start'])
         addClasses(['flex-col-center'], topDiv, middleDiv, footerDiv, container)
         addClasses(['theme'], title, startBtn)
         addClasses(['footerDiv'], footerDiv)
@@ -94,37 +95,56 @@ function displayGameScreen() {
         addClasses(['theme', 'medText'], humanTag, cpuTag)
         addClasses(['flex-row-center'], playArea,)
         addClasses(['flex-col-center'], leftPane, rightPane, resultsArea)
-        setAttributes(rockImg, ['src', './images/rock.jpg'], ['name', 'rock'])
-        setAttributes(paperImg, ['src', './images/paper.jpg'], ['name', 'paper'])
-        setAttributes(scissorsImg, ['src', './images/scissors.jpg'], ['name', 'scissors'])
+        setAttributes(rockImg, ['src', './images/rock.jpg'], ['name', 'rock'], ['id', 'rock'])
+        setAttributes(paperImg, ['src', './images/paper.jpg'], ['name', 'paper'], ['id', 'paper'])
+        setAttributes(scissorsImg, ['src', './images/scissors.jpg'], ['name', 'scissors'], ['id', 'scissors'])
         addClasses(['rpsImages'], rockImg, paperImg, scissorsImg)
         addClasses(['center'], choiceRow1, choiceRow2, cpuDiv)
         addClasses(['fixed-img'], cpuChoiceImg)
         addClasses(['alignTop'], cpuTag)
         addClasses(['cpuChoice'], cpuDiv)
-
+        setAttributes(resultsArea, ['id', 'results'])
     }
-
     let images = [rockImg, paperImg, scissorsImg]
-    let humanChoice, cpuChoice;
-
-    images.map(img => img.addEventListener('click', function handler() {
-        if (cpuScore !== 5 && humanScore !== 5) {
-            humanChoice = img.getAttribute('name')
-            cpuChoice = getComputerChoice()
-            decideWinner(humanChoice, cpuChoice, resultsArea)
-        }
-        else {
-            displayGameOverScreen(images)
-        }
-    }))
+    images.map(img => img.addEventListener('click', handler))
+}
+function handler(event) {
+    const images = [...document.querySelectorAll('#rock, #paper, #scissors')]
+    humanChoice = event.target.getAttribute('name')
+    cpuChoice = getComputerChoice()
+    if (decideWinner(humanChoice, cpuChoice)) {
+        removeHandler(images, handler)
+    }
+}
+function removeHandler(nodeList, fn) {
+    nodeList.map(node => node.removeEventListener('click', fn));
 }
 
-function displayGameOverScreen(images) {
-    console.log('GAME OVER');
-
+function displayGameOverScreen(resultsArea) {
+    const gameOver = document.createTextNode('GAME OVER')
+    const replayDiv = document.createElement('div')
+    const replayBtn = document.createElement('button')
+    replayBtn.textContent = `Replay `
+    replayDiv.appendChild(replayBtn)
+    addClasses(['replayDiv'], replayDiv)
+    addClasses(['theme', 'replayButton'], replayBtn)
+    replayBtn.addEventListener('click', function replay() {
+        cpuScore = 0
+        humanScore = 0
+        replayBtn.removeEventListener('click', replay)
+        displayGameScreen()
+    })
+    if (cpuScore > humanScore) {
+        gameOver.textContent += ` CPU WINS!`
+    }
+    else {
+        gameOver.textContent += ` YOU WIN!`
+    }
+    appendChildren(resultsArea, gameOver, replayDiv)
 }
-function displayRoundResults(outcome, resultsArea) {
+function displayRoundResults(outcome) {
+    let gameOverCheck = false
+    const resultsArea = document.querySelector('#results')
     const resultsText = document.createElement('div')
     const resultsBoard = document.createElement('div')
     let children = [...resultsArea.children]
@@ -137,6 +157,11 @@ function displayRoundResults(outcome, resultsArea) {
         children.map(child => resultsArea.removeChild(child))
     }
     appendChildren(resultsArea, resultsText, resultsBoard)
+    if (cpuScore === 5 || humanScore === 5) {
+        displayGameOverScreen(resultsArea)
+        gameOverCheck = !gameOverCheck
+    }
+    return gameOverCheck
 }
 function getComputerChoice() {
     let compChoice = Math.floor(Math.random() * 3 + 1)
@@ -163,7 +188,7 @@ function getComputerChoice() {
     return cpuSelection
 }
 
-function decideWinner(humanChoice, cpuChoice, resultsArea) {
+function decideWinner(humanChoice, cpuChoice) {
     let outcome
     //TIE if same choice by both
     if (cpuChoice === humanChoice) {
@@ -181,26 +206,12 @@ function decideWinner(humanChoice, cpuChoice, resultsArea) {
         humanScore += 1
         outcome = 'You Win!'
     }
-    displayRoundResults(outcome, resultsArea)
+    return displayRoundResults(outcome)
 }
 
-//Function to play the game (5 rounds and decide the overall winner)
 function playGame() {
     displayStartScreen()
-    // //Game end indicator and scoreboard
-    // console.log(`\n\t------Game Over------\n\t------Results------`)
-    // console.log(`Human Score = ${ humanScore } \nCPU Score = ${ cpuScore } `)
-    // if (cpuScore === humanScore) {
-    //     console.log("OVERALL TIE!!!")
-    // }
-    // else if (cpuScore > humanScore) {
-    //     console.log("CPU wins the whole game!!!")
-    // }
-    // else {
-    //     console.log("You win the whole game!!!")
-    // }
 }
-//Try-Catch block to handle the exception generated on line 35
 try {
     playGame()
 }
